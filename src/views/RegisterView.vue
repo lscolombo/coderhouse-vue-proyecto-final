@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <div>
+    <Register @registered="registerUser"/>
+
+    </div>
+    <v-snackbar v-model="snackbar" :timeout="timeout" :color="snackbarColor">
+      {{ message }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="toggleSnackbar">
+          Cerrar
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
+</template>
+
+<script>
+import Register from '../components/Register';
+import axios from 'axios';
+
+export default {
+  name: 'RegisterView',
+  components: {
+    Register
+  },
+  data() {
+    return {
+      products: [],
+      snackbar: false,
+      timeout: 5000,
+      message: "",
+      snackbarColor: "error"
+    }
+  },
+  methods: {
+    toggleSnackbar: function() {
+      this.snackbar = !this.snackbar
+    },
+    registerUser: function(user) {
+      axios.post("https://61b79ac764e4a10017d18bc1.mockapi.io/api/users", user)
+      .then(() => {
+        this.message = "Usuario registrado con éxito";
+        this.snackbarColor = "success";
+        this.toggleSnackbar();
+        this.$router.push('/list');
+        })
+      .catch((err) => {
+        this.message = err;
+        this.snackbarColor = "error";
+        this.toggleSnackbar();
+        })
+    },
+  },
+}
+</script>

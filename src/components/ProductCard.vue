@@ -10,19 +10,24 @@
       {{ product.description }}
     </v-card-subtitle>
 
-    <v-card-text>
-      {{ product.price }}
-    </v-card-text>
+    <v-card-text> ${{ product.price }} </v-card-text>
     <v-card-actions>
+      <v-btn
+        @click="$router.push(`/product/${product.id}`)"
+        color="primary"
+        text
+      >
+        Ver
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn v-if="quantity === 0" @click="addToCart" color="accent" text>
         Agregar al carrito
         <v-icon right dark> mdi-cart-plus </v-icon>
       </v-btn>
       <div v-else>
-          {{quantity}}
-          <v-btn class="button" @click="addToCart" color="accent">+</v-btn>
-          <v-btn class="button" @click="removeFromCart" color="accent">-</v-btn>
+        {{ quantity }}
+        <v-btn class="button" @click="addToCart" color="accent">+</v-btn>
+        <v-btn class="button" @click="removeFromCart" color="accent">-</v-btn>
       </div>
     </v-card-actions>
   </v-card>
@@ -34,26 +39,26 @@ export default {
     product: Object,
   },
   data() {
-      return {
-          quantity: 0
-      }
+    return {
+      quantity: 0,
+    };
   },
   methods: {
-      addToCart: function() {
-          this.quantity += 1;
-          this.$emit('productAdded', this.product.id);
-      },
-          removeFromCart: function() {
-          this.quantity -= 1;
-          this.$emit('productRemoved', this.product.id);
-      }
+    addToCart: function () {
+      this.quantity += 1;
+      this.$emit("productAdded", this.product.id);
+    },
+    removeFromCart: function () {
+      this.quantity -= 1;
+      this.$emit("productRemoved", this.product.id);
+    },
   },
 };
 </script>
 
 <style scoped>
-.button{
-    margin-left: 0.5em;
-    margin-right: 0.5em;
+.button {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 </style>
