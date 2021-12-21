@@ -1,15 +1,13 @@
 <template>
-<v-container>
-
+  <v-container>
     <div v-if="product == null">
       <p>Producto no encontrado.</p>
       <v-btn @click="$router.push('/list')">Volver a productos</v-btn>
     </div>
     <div v-else>
-
-    <ProductDetail :product="product" />
+      <ProductDetail :product="product" />
     </div>
-</v-container>
+  </v-container>
 </template>
 
 <script>

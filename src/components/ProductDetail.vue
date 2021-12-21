@@ -7,29 +7,42 @@
     </v-row>
     <v-row>
       <v-col>
-        <img :src="product.image" />
+        <v-img :src="product.image">
+          <template v-slot:placeholder>
+            <v-row
+              class="placeholder fill-height ma-0"
+              align="center"
+              justify="center"
+            >
+              <v-progress-circular
+                indeterminate
+                color="grey darken-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
       </v-col>
       <v-col>
-        <h3>{{ product.title }}</h3>
+        <h1>{{ product.title }}</h1>
         <p>{{ product.long_description }}</p>
-        <p>{{ product.price }}</p>
-      </v-col>
-    </v-row>
+        <b>${{ product.price }}</b>
 
-    <v-row>
-      <v-btn
-        v-if="cart.indexOf(product)"
-        @click="addToCart"
-        color="accent"
-        text
-      >
-        Agregar al carrito
-        <v-icon right dark> mdi-cart-plus </v-icon>
-      </v-btn>
-      <v-btn @click="removeFromCart" v-else>
-        Eliminar del carrito
-        <v-icon right dark> mdi-cart-minus </v-icon>
-      </v-btn>
+        <v-container>
+          <v-btn
+            dark
+            v-if="cart.indexOf(product)"
+            @click="addToCart"
+            color="accent"
+          >
+            Agregar al carrito
+            <v-icon right dark> mdi-cart-plus </v-icon>
+          </v-btn>
+          <v-btn @click="removeFromCart" v-else>
+            Eliminar del carrito
+            <v-icon right dark> mdi-cart-minus </v-icon>
+          </v-btn>
+        </v-container>
+      </v-col>
     </v-row>
   </v-container>
 </template>
