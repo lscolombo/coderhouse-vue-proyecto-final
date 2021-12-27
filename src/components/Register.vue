@@ -2,7 +2,7 @@
   <v-container>
     <v-form lazy-validation v-model="valid">
       <v-text-field
-        v-model="email"
+        v-model="user.email"
         label="Email"
         :rules="emailRules"
         required
@@ -10,7 +10,7 @@
 
       <v-text-field
         type="password"
-        v-model="password"
+        v-model="user.password"
         label="Contraseña"
         :rules="passwordRules"
         required
@@ -33,26 +33,30 @@
 
 <script>
 export default {
+  name: 'Register',
   data() {
     return {
       valid: true,
-      email: null,
+      user: {
+        email: null,
+        password: null,
+        role: "user"
+      },
       emailRules: [
         (v) => !!v || "El email es requerido",
         (v) => /.+@.+/.test(v) || "El email no es válido",
       ],
-      password: null,
       passwordRules: [(v) => !!v || "La contraseña es requerida"],
       passwordConfirmation: null,
       passwordConfirmationRules: [
         (v) => !!v || "La contraseña es requerida",
-        (v) => v === this.password || "Las contraseñas no coinciden",
+        (v) => v === this.user.password || "Las contraseñas no coinciden",
       ],
     };
   },
   methods: {
     register: function () {
-      console.log(`REGISTER: EMAIL ${this.email}, PASSWORD: ${this.password}`);
+      this.$emit('registered', this.user);
     },
     validate() {
       this.$refs.form.validate();
