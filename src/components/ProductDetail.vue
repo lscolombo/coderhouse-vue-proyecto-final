@@ -18,15 +18,15 @@
 
     <v-row>
       <v-btn
-        v-if="cart.indexOf(product)"
-        @click="addToCart"
+        v-if="this.$store.state.cart.indexOf(product)"
+        @click="addProductToCart"
         color="accent"
         text
       >
         Agregar al carrito
         <v-icon right dark> mdi-cart-plus </v-icon>
       </v-btn>
-      <v-btn @click="removeFromCart" v-else>
+      <v-btn @click="removeProductFromCart" v-else>
         Eliminar del carrito
         <v-icon right dark> mdi-cart-minus </v-icon>
       </v-btn>
@@ -39,20 +39,13 @@ export default {
   props: {
     product: Object,
   },
-  data() {
-    return {
-      cart: [],
-    };
-  },
   methods: {
-    addToCart: function () {
-      this.cart.push(this.product);
-      console.log("Producto agregado al carrito. Carrito: ", this.cart);
-    },
-    removeFromCart: function () {
-      this.cart.pop();
-      console.log("Producto eliminado del carrito. Carrito: ", this.cart);
-    },
+      addProductToCart: function() {
+          this.$store.dispatch("addProductToCart", this.product);
+      },
+      removeProductFromCart: function() {
+          this.$store.dispatch("removeProductFromCart", this.product.id);
+      }
   },
 };
 </script>

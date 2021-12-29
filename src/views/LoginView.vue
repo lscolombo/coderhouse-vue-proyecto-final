@@ -52,6 +52,7 @@ export default {
           if (response.data.length > 0) {
             this.message = "Éxito";
             this.snackbarColor = "success";
+            this.$store.dispatch("login", response.data[0]);
             this.toggleSnackbar();
 
             let userRole = response.data[0].role;

@@ -28,13 +28,11 @@ export default {
     };
   },
   methods: {
-      addProductToCart: function(productId) {
-          this.cart[productId] = this.cart[productId] ? this.cart[productId]+=1 : 1
-          console.log("Added product. CART: ", this.cart)
+      addProductToCart: function(product) {
+          this.$store.dispatch("addProductToCart", product);
       },
       removeProductFromCart: function(productId) {
-          this.cart[productId] = this.cart[productId] ? this.cart[productId]-=1 : 0
-          console.log("Removed product. CART: ", this.cart)
+          this.$store.dispatch("removeProductFromCart", productId);
       }
   },
 };

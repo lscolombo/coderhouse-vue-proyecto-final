@@ -1,4 +1,6 @@
 <template>
+<v-container>
+
   <v-card class="product-card" max-width="344">
     <v-img :src="product.image" height="200px"></v-img>
 
@@ -20,39 +22,38 @@
         Ver
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn v-if="quantity === 0" @click="addToCart" color="accent" text>
+      <v-btn v-if="productQuantity(this.product) === 0" @click="addToCart" color="accent" text>
         Agregar al carrito
         <v-icon right dark> mdi-cart-plus </v-icon>
       </v-btn>
       <div v-else>
-        {{ quantity }}
+        {{ productQuantity(this.product) }}
         <v-btn class="button" @click="addToCart" color="accent">+</v-btn>
         <v-btn class="button" @click="removeFromCart" color="accent">-</v-btn>
       </div>
     </v-card-actions>
   </v-card>
+</v-container>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+
 export default {
   props: {
     product: Object,
   },
-  data() {
-    return {
-      quantity: 0,
-    };
-  },
   methods: {
     addToCart: function () {
-      this.quantity += 1;
-      this.$emit("productAdded", this.product.id);
+      this.$emit("productAdded", this.product);
     },
     removeFromCart: function () {
-      this.quantity -= 1;
       this.$emit("productRemoved", this.product.id);
     },
   },
+  computed: {
+    ...mapGetters(["productQuantity"])
+  }
 };
 </script>
 

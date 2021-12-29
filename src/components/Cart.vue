@@ -4,16 +4,21 @@
       <v-data-table
         hide-default-footer
         :headers="headers"
-        :items="products"
+        :items="cartWithoutRepetitions"
         class="elevation-1"
       >
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="addItem(item)"> mdi-plus </v-icon>
           <v-icon small @click="removeItem(item)"> mdi-minus </v-icon>
         </template>
+        <template v-slot:[`item.quantity`]="{ item }">
+          <div>
+            {{cart.filter((product) => product.id === item.id).length}}
+          </div>
+        </template>
         <template v-slot:[`item.subtotal`]="{ item }">
           <div>
-            {{item.price * item.quantity}}
+            ${{item.price * cart.filter((product) => product.id === item.id).length}}
           </div>
         </template>
         <template v-slot:no-data>
@@ -22,9 +27,11 @@
       </v-data-table>
     </v-col>
     <p>
-      Total: ${{products.map((product) => product.price * product.quantity).reduce((a, b) => a + b, 0)}}
+      Total: ${{this.cart.reduce((acc, item) => {
+    return acc += parseInt(item.price);
+}, 0)}}
     </p>
-    <v-btn @click="createOrder" :disabled="products.length === 0">Comprar</v-btn>
+    <v-btn @click="createOrder" :disabled="cart.length === 0">Comprar</v-btn>
 
      <v-row justify="center">
     <v-dialog
@@ -61,15 +68,12 @@
 </template>
 <script>
 import axios from 'axios';
+import {mapGetters} from 'vuex';
 export default {
   data() {
     return {
       dialog: false,
       orderId: null,
-      products: [
-        {title: "Fideos con manteca", quantity: 1, price: 20.0},
-        {title: "Ravioles con manteca", quantity: 2, price: 30.0},
-      ],
       headers: [
         { text: "Producto", value: "title", sortable: false, width: "10px", align: "left" },
         { text: "Cantidad", value: "quantity", sortable: false , width: "10px",  align: "left" },
@@ -80,27 +84,22 @@ export default {
     };
   },
   methods: {
-    addItem: function (item) {
-      item.quantity += 1;
-    },
-    removeItem: function (item) {
-      if (item.quantity === 1) {
-        let index = this.products.indexOf(item);
-        this.products.splice(index, 1);
-      } else {
-        item.quantity -= 1;
-      }
-    },
+      addItem: function(product) {
+          this.$store.dispatch("addProductToCart", product);
+      },
+      removeItem: function(product) {
+          this.$store.dispatch("removeProductFromCart", product.id);
+      },
     createOrder: function() {
       let body = {
-        products: this.products,
+        products: this.cart,
         user: "user@mail.com",
       }
         axios.post("https://61b79ac764e4a10017d18bc1.mockapi.io/api/orders", body)
       .then((response) => {
         this.orderId = response.data.id;
         this.dialog = true;
-        this.products = []
+        this.$store.dispatch("emptyCart");
       })
       .catch((err) => {
         this.error = err;
@@ -108,6 +107,9 @@ export default {
         })
     }
   },
+  computed: {
+    ...mapGetters(["cart", "cartWithoutRepetitions"])
+  }
 };
 </script>
 

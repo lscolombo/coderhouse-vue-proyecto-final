@@ -63,6 +63,7 @@ export default {
       this.description = null;
       this.longDescription = null;
       this.price = 0;
+      this.$refs.form.reset();
     },
     validate() {
       this.$refs.form.validate();

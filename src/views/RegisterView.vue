@@ -40,10 +40,11 @@ export default {
     },
     registerUser: function(user) {
       axios.post("https://61b79ac764e4a10017d18bc1.mockapi.io/api/users", user)
-      .then(() => {
+      .then((data) => {
         this.message = "Usuario registrado con éxito";
         this.snackbarColor = "success";
         this.toggleSnackbar();
+        this.$store.dispatch("login", data.data)
         this.$router.push('/list');
         })
       .catch((err) => {
