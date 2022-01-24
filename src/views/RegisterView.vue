@@ -45,7 +45,7 @@ export default {
         this.snackbarColor = "success";
         this.toggleSnackbar();
         this.$store.dispatch("login", data.data)
-        this.$router.push('/list');
+        this.$router.push('/');
         })
       .catch((err) => {
         this.message = err;

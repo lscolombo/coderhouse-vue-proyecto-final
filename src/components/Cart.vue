@@ -56,7 +56,7 @@
           <v-btn
             color="green darken-1"
             text
-            @click="$router.push('/list')"
+            @click="$router.push('/')"
           >
             Ver productos
           </v-btn>

@@ -3,7 +3,7 @@
   <v-app>
     <div id="app">
       <v-app-bar>
-        <router-link v-if="currentUser && currentUser.role !== 'admin'" to="/list">Productos</router-link>
+        <router-link v-if="currentUser && currentUser.role !== 'admin'" to="/">Productos</router-link>
         <router-link v-if="currentUser && currentUser.role === 'admin'" to="/admin">Administración</router-link>
         <v-spacer></v-spacer>
         <router-link v-if="currentUser && currentUser.role !== 'admin'" to="/cart">

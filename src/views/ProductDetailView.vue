@@ -3,7 +3,7 @@
 
     <div v-if="product == null">
       <p>Producto no encontrado.</p>
-      <v-btn @click="$router.push('/list')">Volver a productos</v-btn>
+      <v-btn @click="$router.push('/')">Volver a productos</v-btn>
     </div>
     <div v-else>
 

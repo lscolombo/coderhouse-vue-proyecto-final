@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-btn depressed color="white" @click="$router.push('/list')">
+      <v-btn depressed color="white" @click="$router.push('/')">
         <v-icon left dark> mdi-arrow-left </v-icon>
       </v-btn>
     </v-row>

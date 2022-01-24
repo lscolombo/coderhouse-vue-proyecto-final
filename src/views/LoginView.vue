@@ -59,7 +59,7 @@ export default {
             if (userRole == "admin") {
               this.$router.push("/admin");
             } else {
-              this.$router.push("/list");
+              this.$router.push("/");
             }
           } else {
             this.message = "Email o contraseña incorrectos.";
