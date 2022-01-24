@@ -3,11 +3,10 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+const cartStore = {
+  state: () => ({
     cart: [],
-    user: null
-  },
+  }),
   mutations: {
     addProductToCart(state, product) {
       state.cart.push(product);
@@ -15,20 +14,14 @@ export default new Vuex.Store({
     removeProductFromCart(state, productId) {
       for (let i = 0; i < state.cart.length; i++) {
         if (state.cart[i].id == productId){
-            state.cart.splice(i, 1);
-            break;
-          }
-      } 
+          state.cart.splice(i, 1);
+          break;
+        }
+      }
     },
     emptyCart(state) {
       state.cart = [];
     },
-    login(state, user) {
-      state.user = user;
-    },
-    logout(state) {
-      state.user = null;
-    }
   },
   actions: {
     addProductToCart({commit}, payload) {
@@ -40,6 +33,29 @@ export default new Vuex.Store({
     emptyCart({commit}) {
       commit('emptyCart');
     },
+  },
+  getters: {
+    cart: state => state.cart,
+    cartWithoutRepetitions: state => [...new Set(state.cart)],
+    totalItems: state => [...new Set(state.cart)].length,
+    productQuantity: (state) => (product) => state.cart.filter(p => p.id === product.id).length,
+  }
+}
+
+
+const userStore = {
+  state:() => ({
+    user: null,
+  }),
+  mutations: {
+    login(state, user) {
+      state.user = user;
+    },
+    logout(state) {
+      state.user = null;
+    }
+  },
+  actions: {
     login({commit}, payload) {
       commit('login', payload);
     },
@@ -48,12 +64,12 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    cart: state => state.cart,
-    cartWithoutRepetitions: state => [...new Set(state.cart)],
-    totalItems: state => [...new Set(state.cart)].length,
-    productQuantity: (state) => (product) => state.cart.filter(p => p.id === product.id).length,
     currentUser: state => state.user,
   },
+}
+export default new Vuex.Store({
   modules: {
+    cart: cartStore,
+    user: userStore
   }
 })

@@ -15,7 +15,7 @@
         <p>{{ product.price }}</p>
         <div>
           <v-btn
-              v-if="this.$store.state.cart.indexOf(product)"
+              v-if="this.$store.state.cart.cart.indexOf(product)"
               @click="addProductToCart"
               color="accent"
               text
