@@ -6,6 +6,7 @@ import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ProductCRUDView from '../views/ProductCRUDView.vue'
 import ProductDetailView from '../views/ProductDetailView.vue'
+import PageNotFoundView from "../views/PageNotFoundView";
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: ProductCRUDView
+  },
+  {
+    path: '*',
+    name: 'PageNotFoundView',
+    component: PageNotFoundView
   }
 ]
 

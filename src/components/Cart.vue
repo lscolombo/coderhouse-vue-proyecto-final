@@ -31,7 +31,7 @@
     return acc += parseInt(item.price);
 }, 0)}}
     </p>
-    <v-btn @click="createOrder" :disabled="cart.length === 0">Comprar</v-btn>
+    <v-btn @click="createOrder" color="accent" :disabled="cart.length === 0">Comprar</v-btn>
 
      <v-row justify="center">
     <v-dialog

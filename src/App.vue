@@ -1,15 +1,15 @@
 <template>
+
   <v-app>
     <div id="app">
       <v-app-bar>
         <router-link v-if="currentUser && currentUser.role !== 'admin'" to="/list">Productos</router-link>
         <router-link v-if="currentUser && currentUser.role === 'admin'" to="/admin">Administración</router-link>
         <v-spacer></v-spacer>
-        <router-link to="/cart">
-          <!-- TODO Usar la cantidad de productos en el badge con Vuex -->
+        <router-link v-if="currentUser && currentUser.role !== 'admin'" to="/cart">
           <v-badge :content="totalItems" color="accent">
             <v-btn small>
-              <v-icon> mdi-cart </v-icon>
+              <v-icon> mdi-cart</v-icon>
             </v-btn>
           </v-badge>
         </router-link>
@@ -21,9 +21,10 @@
           </span>
         </router-link>
       </v-app-bar>
-      <router-view />
+      <router-view id="router-view"/>
     </div>
   </v-app>
+
 </template>
 
 <script>
@@ -35,7 +36,7 @@ export default {
       this.$store.dispatch("logout");
     }
   },
-    computed: {
+  computed: {
     ...mapGetters(["totalItems", "currentUser"])
   }
 }

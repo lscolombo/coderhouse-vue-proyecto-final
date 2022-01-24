@@ -5,7 +5,7 @@
         <ProductForm @itemAdded="addProduct" />
       </v-col>
       <v-col>
-        <ProductTable @itemDeleted="deleteProduct" :foods="products" />
+        <ProductTable @itemDeleted="deleteProduct" @productEdited="editProduct" :foods="products" />
       </v-col>
     </v-container>
 
@@ -69,6 +69,24 @@ export default {
           this.snackbarColor = "error";
           this.toggleSnackbar();
         });
+    },
+    editProduct: function(product) {
+      axios
+          .put(
+              "https://61b79ac764e4a10017d18bc1.mockapi.io/api/products/"+product.id,
+              product
+          )
+          .then(() => {
+            this.message = "Producto editado.";
+            this.snackbarColor = "success";
+            this.toggleSnackbar();
+            this.getProducts();
+          })
+          .catch((err) => {
+            this.message = err;
+            this.snackbarColor = "error";
+            this.toggleSnackbar();
+          });
     },
     deleteProduct: function (product) {
       axios

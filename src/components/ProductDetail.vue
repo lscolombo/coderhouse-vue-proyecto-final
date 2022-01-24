@@ -13,23 +13,22 @@
         <h3>{{ product.title }}</h3>
         <p>{{ product.long_description }}</p>
         <p>{{ product.price }}</p>
+        <div>
+          <v-btn
+              v-if="this.$store.state.cart.indexOf(product)"
+              @click="addProductToCart"
+              color="accent"
+              text
+          >
+            Agregar al carrito
+            <v-icon right dark> mdi-cart-plus </v-icon>
+          </v-btn>
+          <v-btn @click="removeProductFromCart" v-else>
+            Eliminar del carrito
+            <v-icon right dark> mdi-cart-minus </v-icon>
+          </v-btn>
+        </div>
       </v-col>
-    </v-row>
-
-    <v-row>
-      <v-btn
-        v-if="this.$store.state.cart.indexOf(product)"
-        @click="addProductToCart"
-        color="accent"
-        text
-      >
-        Agregar al carrito
-        <v-icon right dark> mdi-cart-plus </v-icon>
-      </v-btn>
-      <v-btn @click="removeProductFromCart" v-else>
-        Eliminar del carrito
-        <v-icon right dark> mdi-cart-minus </v-icon>
-      </v-btn>
     </v-row>
   </v-container>
 </template>

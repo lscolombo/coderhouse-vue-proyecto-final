@@ -27,8 +27,8 @@
         :rules="priceRules"
         required
       ></v-text-field>
-      <v-btn color="accent" class="mr-4" @click="addItem" :disabled="!valid">
-        ENVIAR
+      <v-btn color="accent" @click="addItem" :disabled="!valid">
+        Enviar
       </v-btn>
     </v-form>
   </v-container>
@@ -37,13 +37,36 @@
 <script>
 export default {
   name: "ProductForm",
+  props: {
+    idProp: {
+      type: String,
+      default: ""
+    },
+    titleProp: {
+      type: String,
+      default: ""
+    },
+    descriptionProp: {
+      type: String,
+      default: ""
+    },
+    longDescriptionProp: {
+      type: String,
+      default: ""
+    },
+    priceProp: {
+      type: String,
+      default: "0.0"
+    },
+  },
   data() {
     return {
+      id: this.idProp,
+      title: this.titleProp,
+      description: this.descriptionProp,
+      longDescription: this.longDescriptionProp,
+      price: this.priceProp,
       valid: false,
-      title: null,
-      description: null,
-      longDescription: null,
-      price: 0,
       titleRules: [(v) => !!v || "El nombre es requerido"],
       priceRules: [(v) => !!v || "El precio es requerido"],
       descriptionRules: [(v) => !!v || "La descripción es requerida"],
@@ -53,6 +76,7 @@ export default {
     addItem: function () {
       this.validate();
       let food = {
+        id: this.id,
         title: this.title,
         description: this.description,
         long_description: this.longDescription,
